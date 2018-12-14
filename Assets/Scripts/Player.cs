@@ -6,11 +6,11 @@ public class Player : MonoBehaviour
     public GameObject arrow;
 
     Rigidbody body;
+    float fireTime;
 
     void Start()
     {
         body = GetComponent<Rigidbody>();
-        StartCoroutine(FireProjectile());
     }
 
     void FixedUpdate()
@@ -21,26 +21,40 @@ public class Player : MonoBehaviour
         if (currentMovement.sqrMagnitude > 0.1f)
         {
             currentMovement.Normalize();
-            body.MovePosition(body.position + (currentMovement / 15f));
-            body.rotation = Quaternion.Lerp(body.rotation, Quaternion.LookRotation(currentMovement), Time.deltaTime * 5f);
+            body.MovePosition(body.position + (currentMovement / 8f));
+        }
+
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //todo: controller
+        Plane ground = new Plane(Vector3.up, Vector3.zero);
+        float rayLength;
+
+        if (ground.Raycast(ray, out rayLength))
+        {
+            Vector3 look = ray.GetPoint(rayLength);
+
+            transform.LookAt(new Vector3(look.x, body.position.y, look.z));
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, look), Time.deltaTime * 1f);
         }
     }
 
     void Update()
     {
-        Camera.main.transform.position = new Vector3(body.position.x, Camera.main.transform.position.y, body.position.z - 10);
+        Camera.main.transform.position = new Vector3(body.position.x, Camera.main.transform.position.y, body.position.z - 5);
+
+        if (Input.GetButtonDown("Fire1") && (Time.time - fireTime >= 0.5f))
+        {
+            FireProjectile();
+            fireTime = Time.time;
+        }
     }
 
-    IEnumerator FireProjectile()
+    void FireProjectile()
     {
         var newArrow = Instantiate(arrow);
         newArrow.gameObject.SetActive(true);
         newArrow.transform.position = arrow.transform.position;
         newArrow.transform.rotation = arrow.transform.rotation;
 
-        newArrow.GetComponent<Rigidbody>().velocity = arrow.transform.forward.normalized * 10f;
-
-        yield return new WaitForSeconds(1.5f);
-        StartCoroutine(FireProjectile());
+        newArrow.GetComponent<Rigidbody>().velocity = arrow.transform.forward.normalized * 20f;
     }
 }

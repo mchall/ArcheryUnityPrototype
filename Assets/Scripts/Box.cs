@@ -18,7 +18,7 @@ public class Box : MonoBehaviour
         if (player != null && !dead)
         {
             body.transform.LookAt(player.transform.position);
-            body.MovePosition(body.position + (body.transform.forward * 0.01f));
+            body.MovePosition(body.position + (body.transform.forward * 0.03f));
         }
     }
 
