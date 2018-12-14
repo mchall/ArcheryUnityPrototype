@@ -15,10 +15,10 @@ public class Box : MonoBehaviour
 
     void Update()
     {
-        if (player != null && !dead)
+        if (player != null && !dead && transform.position.y < 1)
         {
             body.transform.LookAt(player.transform.position);
-            body.MovePosition(body.position + (body.transform.forward * 0.03f));
+            body.MovePosition(body.position + (body.transform.forward * 0.06f));
         }
     }
 
@@ -27,10 +27,18 @@ public class Box : MonoBehaviour
         if (collision.gameObject.tag == "Arrow")
         {
             dead = true;
+            StartCoroutine(Destroy());
         }
         else if (!dead && collision.gameObject.tag == "Player")
         {
             Destroy(collision.gameObject);
         }
+    }
+
+    IEnumerator Destroy()
+    {
+        yield return new WaitForSeconds(5f);
+
+        Destroy(gameObject);
     }
 }
