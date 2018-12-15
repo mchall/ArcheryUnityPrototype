@@ -3,9 +3,13 @@ using System.Collections;
 
 public class Box : MonoBehaviour
 {
+    public Material flash;
+
     Rigidbody body;
     Player player;
     bool dead;
+
+    Vector3 lastPos;
 
     void Start()
     {
@@ -17,8 +21,16 @@ public class Box : MonoBehaviour
     {
         if (!dead && player != null && !player.invisible && transform.position.y < 1)
         {
+            lastPos = player.transform.position;
+            GetComponentInChildren<BodyAnimator>().enabled = true;
+
             body.transform.LookAt(player.transform.position);
             body.MovePosition(body.position + (body.transform.forward * 0.06f));
+        }
+        else if (!dead)
+        {
+            GetComponentInChildren<BodyAnimator>().enabled = false;
+            body.transform.LookAt(lastPos);
         }
     }
 
@@ -31,8 +43,12 @@ public class Box : MonoBehaviour
             player.Score++;
             dead = true;
 
-            var force = collision.relativeVelocity * 20;
+            GetComponentInChildren<BodyAnimator>().enabled = false;
+
+            var force = collision.relativeVelocity * 10;
             body.AddForce(force);
+
+            body.mass = 0.1f;
 
             StartCoroutine(Destroy());
         }
@@ -53,13 +69,22 @@ public class Box : MonoBehaviour
     {
         if (!dead)
         {
-            var renderer = GetComponent<Renderer>();
+            var renderers = GetComponentsInChildren<Renderer>();
 
-            var original = renderer.material.color;
+            Material[] originals = new Material[renderers.Length];
 
-            renderer.material.color = Color.white;
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                originals[i] = renderers[i].material;
+                renderers[i].material = flash;
+            }
+
             yield return new WaitForSeconds(0.1f);
-            renderer.material.color = original;
+
+            for (int i = 0; i < renderers.Length; i++)
+            {
+                renderers[i].material = originals[i];
+            }
         }
     }
 }
