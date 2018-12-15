@@ -5,9 +5,14 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public GameObject box;
+    Player player;
+
+    public float lower;
+    public float upper;
 
     void Start()
     {
+        player = FindObjectOfType<Player>();
         StartCoroutine(SpawnBox());
     }
 
@@ -18,12 +23,15 @@ public class Spawner : MonoBehaviour
 
     IEnumerator SpawnBox()
     {
-        var newBox = Instantiate(box);
-        newBox.gameObject.SetActive(true);
-        newBox.transform.position = transform.position;
-        newBox.transform.rotation = transform.rotation;
+        if (player != null)
+        {
+            var newBox = Instantiate(box);
+            newBox.gameObject.SetActive(true);
+            newBox.transform.position = transform.position;
+            newBox.transform.rotation = transform.rotation;
 
-        yield return new WaitForSeconds(Random.Range(2.5f, 6f));
-        StartCoroutine(SpawnBox());
+            yield return new WaitForSeconds(Random.Range(lower, upper));
+            StartCoroutine(SpawnBox());
+        }
     }
 }

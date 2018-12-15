@@ -4,9 +4,12 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     public GameObject arrow;
+    public int Score;
+    public bool invisible;
 
     Rigidbody body;
     float fireTime;
+    float powerTime = -9999;
 
     void Start()
     {
@@ -46,6 +49,12 @@ public class Player : MonoBehaviour
             FireProjectile();
             fireTime = Time.time;
         }
+
+        if (Input.GetButtonDown("Fire2") && (Time.time - powerTime >= 10f))
+        {
+            StartCoroutine(ActivatePower());
+            powerTime = Time.time;
+        }
     }
 
     void FireProjectile()
@@ -56,5 +65,12 @@ public class Player : MonoBehaviour
         newArrow.transform.rotation = arrow.transform.rotation;
 
         newArrow.GetComponent<Rigidbody>().velocity = arrow.transform.forward.normalized * 20f;
+    }
+
+    IEnumerator ActivatePower()
+    {
+        invisible = true;
+        yield return new WaitForSeconds(5f);
+        invisible = false;
     }
 }

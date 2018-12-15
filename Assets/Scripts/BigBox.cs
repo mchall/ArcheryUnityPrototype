@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Box : MonoBehaviour
+public class BigBox : MonoBehaviour
 {
     Rigidbody body;
     Player player;
     bool dead;
+    int arrowCount;
 
     void Start()
     {
@@ -18,7 +19,7 @@ public class Box : MonoBehaviour
         if (!dead && player != null && !player.invisible && transform.position.y < 1)
         {
             body.transform.LookAt(player.transform.position);
-            body.MovePosition(body.position + (body.transform.forward * 0.06f));
+            body.MovePosition(body.position + (body.transform.forward * 0.02f));
         }
     }
 
@@ -29,12 +30,17 @@ public class Box : MonoBehaviour
             StartCoroutine(Flash());
 
             player.Score++;
-            dead = true;
+            arrowCount++;
 
-            var force = collision.relativeVelocity * 20;
-            body.AddForce(force);
+            if (arrowCount >= 3)
+            {
+                dead = true;
 
-            StartCoroutine(Destroy());
+                var force = collision.relativeVelocity * 20;
+                body.AddForce(force);
+
+                StartCoroutine(Destroy());
+            }
         }
         else if (!dead && collision.gameObject.tag == "Player")
         {
