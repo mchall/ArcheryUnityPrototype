@@ -4,12 +4,13 @@ using System.Collections;
 public class Box : MonoBehaviour
 {
     public Material flash;
+    public int health = 1;
+    public float speed = 0.06f;
 
     Rigidbody body;
     Player player;
     bool dead;
-
-    Vector3 lastPos;
+    int hitCount;
 
     void Start()
     {
@@ -19,18 +20,19 @@ public class Box : MonoBehaviour
 
     void Update()
     {
+        if (!dead && player.invisible)
+        {
+            GetComponentInChildren<BodyAnimator>().enabled = false;
+            body.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        }
+
         if (!dead && player != null && !player.invisible && transform.position.y < 1)
         {
-            lastPos = player.transform.position;
+            body.constraints = RigidbodyConstraints.None;
             GetComponentInChildren<BodyAnimator>().enabled = true;
 
             body.transform.LookAt(player.transform.position);
-            body.MovePosition(body.position + (body.transform.forward * 0.06f));
-        }
-        else if (!dead)
-        {
-            GetComponentInChildren<BodyAnimator>().enabled = false;
-            body.transform.LookAt(lastPos);
+            body.MovePosition(body.position + (body.transform.forward * speed));
         }
     }
 
@@ -40,17 +42,26 @@ public class Box : MonoBehaviour
         {
             StartCoroutine(Flash());
 
-            player.Score++;
-            dead = true;
+            hitCount++;
 
-            GetComponentInChildren<BodyAnimator>().enabled = false;
+            if (hitCount >= health)
+            {
+                body.constraints = RigidbodyConstraints.None;
 
-            var force = collision.relativeVelocity * 10;
-            body.AddForce(force);
+                player.Score++;
+                dead = true;
 
-            body.mass = 0.1f;
+                GetComponentInChildren<BodyAnimator>().enabled = false;
 
-            StartCoroutine(Destroy());
+                body.mass = 1f;
+
+                var force = collision.relativeVelocity * 10;
+                body.AddForce(force);
+
+                body.mass = 0.1f;
+
+                StartCoroutine(Destroy());
+            }
         }
         else if (!dead && collision.gameObject.tag == "Player")
         {
@@ -61,7 +72,6 @@ public class Box : MonoBehaviour
     IEnumerator Destroy()
     {
         yield return new WaitForSeconds(5f);
-
         Destroy(gameObject);
     }
 
