@@ -69,6 +69,11 @@ public class Box : MonoBehaviour
                 flashTime = Time.time;
             }
         }
+        else if (collision.gameObject.tag == "Trolley")
+        {
+            var force = collision.relativeVelocity.normalized * 15;
+            body.AddForce(new Vector3(force.x, 5, force.z), ForceMode.Impulse);
+        }
         else if (!dead && collision.gameObject.tag == "Player")
         {
             Destroy(collision.gameObject);
