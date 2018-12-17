@@ -7,10 +7,12 @@ public class Player : MonoBehaviour
     public bool invisible;
 
     Rigidbody body;
+    PersonAnimator animator;
 
     void Start()
     {
         body = GetComponent<Rigidbody>();
+        animator = GetComponentInChildren<PersonAnimator>();
     }
 
     void FixedUpdate()
@@ -22,6 +24,11 @@ public class Player : MonoBehaviour
         {
             currentMovement.Normalize();
             body.MovePosition(body.position + (currentMovement / 8f));
+            animator.enabled = true;
+        }
+        else
+        {
+            animator.enabled = false;
         }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //todo: controller
