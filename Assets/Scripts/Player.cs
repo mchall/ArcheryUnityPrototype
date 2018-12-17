@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
     public int Score;
     public bool invisible;
 
+    public float MovementSpeed = 8f;
+
     Rigidbody body;
     PersonAnimator animator;
 
@@ -23,7 +25,7 @@ public class Player : MonoBehaviour
         if (currentMovement.sqrMagnitude > 0.1f)
         {
             currentMovement.Normalize();
-            body.MovePosition(body.position + (currentMovement / 8f));
+            body.MovePosition(body.position + (currentMovement / MovementSpeed));
             animator.enabled = true;
         }
         else

@@ -11,6 +11,7 @@ public class Box : MonoBehaviour
     Player player;
     bool dead;
     int hitCount;
+    float flashTime;
 
     void Start()
     {
@@ -40,27 +41,32 @@ public class Box : MonoBehaviour
     {
         if (collision.gameObject.tag == "Arrow")
         {
-            StartCoroutine(Flash());
-
-            hitCount++;
-
-            if (hitCount >= health)
+            if (Time.time - flashTime >= 0.15f)
             {
-                body.constraints = RigidbodyConstraints.None;
+                StartCoroutine(Flash());
 
-                player.Score++;
-                dead = true;
+                hitCount++;
 
-                GetComponentInChildren<BodyAnimator>().enabled = false;
+                if (hitCount >= health)
+                {
+                    body.constraints = RigidbodyConstraints.None;
 
-                body.mass = 1f;
+                    player.Score++;
+                    dead = true;
 
-                var force = collision.relativeVelocity * 10;
-                body.AddForce(force);
+                    GetComponentInChildren<BodyAnimator>().enabled = false;
 
-                body.mass = 0.1f;
+                    body.mass = 1f;
 
-                StartCoroutine(Destroy());
+                    var force = collision.relativeVelocity * 10;
+                    body.AddForce(force);
+
+                    body.mass = 0.1f;
+
+                    StartCoroutine(Destroy());
+                }
+
+                flashTime = Time.time;
             }
         }
         else if (!dead && collision.gameObject.tag == "Player")

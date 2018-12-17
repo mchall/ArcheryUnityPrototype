@@ -15,6 +15,7 @@ public class Pewdie1 : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<Player>();
+
     }
 
     void Update()
