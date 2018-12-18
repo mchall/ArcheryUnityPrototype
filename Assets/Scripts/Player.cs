@@ -26,11 +26,14 @@ public class Player : MonoBehaviour
         {
             currentMovement.Normalize();
             body.MovePosition(body.position + (currentMovement / MovementSpeed));
-            animator.enabled = true;
+
+            if (animator != null)
+                animator.enabled = true;
         }
         else
         {
-            animator.enabled = false;
+            if (animator != null)
+                animator.enabled = false;
         }
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //todo: controller
