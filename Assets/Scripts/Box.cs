@@ -6,10 +6,12 @@ public class Box : MonoBehaviour
     public Material flash;
     public int health = 1;
     public float speed = 0.06f;
+    public bool trainMode;
+    public bool isPox;
 
     Rigidbody body;
     Player player;
-    bool dead;
+    public bool dead;
     int hitCount;
     float flashTime;
 
@@ -17,6 +19,9 @@ public class Box : MonoBehaviour
     {
         body = GetComponent<Rigidbody>();
         player = FindObjectOfType<Player>();
+
+        if (trainMode)
+            body.transform.LookAt(player.transform.position);
     }
 
     void Update()
@@ -32,14 +37,17 @@ public class Box : MonoBehaviour
             body.constraints = RigidbodyConstraints.None;
             GetComponentInChildren<BodyAnimator>().enabled = true;
 
-            body.transform.LookAt(player.transform.position);
-            body.MovePosition(body.position + (body.transform.forward * speed));
+            if (!trainMode)
+                body.transform.LookAt(player.transform.position);
+
+            if (!isPox)
+                body.MovePosition(body.position + (body.transform.forward * speed));
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Arrow")
+        if (collision.gameObject.tag == "Arrow" || (!isPox && collision.gameObject.tag == "PoxArrow"))
         {
             if (Time.time - flashTime >= 0.15f)
             {
@@ -51,8 +59,13 @@ public class Box : MonoBehaviour
                 {
                     body.constraints = RigidbodyConstraints.None;
 
-                    player.Score++;
+                    player.Score += health;
                     dead = true;
+
+                    if (isPox)
+                    {
+                        GetComponent<Pox>().enabled = false;
+                    }
 
                     GetComponentInChildren<BodyAnimator>().enabled = false;
 
