@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        bool controllerDetected = Input.GetJoystickNames().Length > 0;
+
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");
         var currentMovement = new Vector3(h, 0, v);
@@ -27,6 +29,14 @@ public class Player : MonoBehaviour
         {
             currentMovement.Normalize();
             body.MovePosition(body.position + (currentMovement / MovementSpeed));
+
+            var to = body.position + currentMovement;
+
+            if (controllerDetected)
+            {
+                transform.LookAt(to);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, to), Time.deltaTime * 1f);
+            }
 
             if (animator != null)
                 animator.enabled = true;
@@ -37,16 +47,19 @@ public class Player : MonoBehaviour
                 animator.enabled = false;
         }
 
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //todo: controller
-        Plane ground = new Plane(Vector3.up, Vector3.zero);
-        float rayLength;
-
-        if (ground.Raycast(ray, out rayLength))
+        if (!controllerDetected)
         {
-            Vector3 look = ray.GetPoint(rayLength);
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //todo: controller
+            Plane ground = new Plane(Vector3.up, Vector3.zero);
+            float rayLength;
 
-            transform.LookAt(new Vector3(look.x, body.position.y, look.z));
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, look), Time.deltaTime * 1f);
+            if (ground.Raycast(ray, out rayLength))
+            {
+                Vector3 look = ray.GetPoint(rayLength);
+
+                transform.LookAt(new Vector3(look.x, body.position.y, look.z));
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, look), Time.deltaTime * 1f);
+            }
         }
     }
 

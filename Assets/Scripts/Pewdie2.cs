@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Pewdie2 : MonoBehaviour
 {
+    public GameObject trolley;
+
     Player player;
 
     float powerTime = -9999;
@@ -14,7 +16,7 @@ public class Pewdie2 : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire2") && (Time.time - powerTime >= 5f))
+        if (Input.GetButtonDown("Fire2") && (Time.time - powerTime >= 30f))
         {
             StartCoroutine(ActivatePower());
             powerTime = Time.time;
@@ -22,8 +24,9 @@ public class Pewdie2 : MonoBehaviour
     }
 
     IEnumerator ActivatePower()
-    { 
-        //todo
-        yield return new WaitForSeconds(1f);
+    {
+        trolley.tag = "Arrow";
+        yield return new WaitForSeconds(5f);
+        trolley.tag = "Trolley";
     }
 }
