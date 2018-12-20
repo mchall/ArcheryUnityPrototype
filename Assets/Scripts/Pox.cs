@@ -23,7 +23,7 @@ public class Pox : MonoBehaviour
 
     void Update()
     {
-        if (player != null)
+        if (!box.dead && player != null && !player.invisible && !player.superSpeed)
             body.transform.LookAt(player.transform.position);
     }
 
@@ -31,21 +31,21 @@ public class Pox : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
 
-        if (!box.dead)
+        if (!box.dead && player != null && !player.invisible && !player.superSpeed)
             readyText.SetActive(true);
 
         yield return new WaitForSeconds(1f);
 
         readyText.SetActive(false);
 
-        if (!box.dead)
+        if (!box.dead && player != null && !player.invisible && !player.superSpeed)
             aimText.SetActive(true);
 
         yield return new WaitForSeconds(1f);
 
         aimText.SetActive(false);
 
-        if (!box.dead)
+        if (!box.dead && player != null && !player.invisible && !player.superSpeed)
         {
             fireText.SetActive(true);
 

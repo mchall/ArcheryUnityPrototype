@@ -25,9 +25,11 @@ public class Spawner : MonoBehaviour
     {
         if (player != null)
         {
+            var point = Random.onUnitSphere * 2;
+
             var newBox = Instantiate(box);
             newBox.gameObject.SetActive(true);
-            newBox.transform.position = transform.position;
+            newBox.transform.position = transform.position + point;
             newBox.transform.rotation = transform.rotation;
 
             yield return new WaitForSeconds(Random.Range(lower, upper));

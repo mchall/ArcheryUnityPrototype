@@ -32,7 +32,17 @@ public class Box : MonoBehaviour
             body.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         }
 
-        if (!dead && player != null && !player.invisible && transform.position.y < 1)
+        if (player.superSpeed && !dead)
+        {
+            body.constraints = RigidbodyConstraints.FreezeAll;
+            GetComponentInChildren<BodyAnimator>().enabled = false;
+        }
+        else if (!dead && transform.position.y >= 1)
+        {
+            body.constraints = RigidbodyConstraints.None;
+            GetComponentInChildren<BodyAnimator>().enabled = true;
+        }
+        else if (!dead && player != null && !player.invisible && transform.position.y < 1)
         {
             body.constraints = RigidbodyConstraints.None;
             GetComponentInChildren<BodyAnimator>().enabled = true;

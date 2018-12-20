@@ -26,11 +26,11 @@ public class Pewdie1 : MonoBehaviour
             fireTime = Time.time;
         }
 
-        /*if (Input.GetButtonDown("Fire2") && (Time.time - powerTime >= 10f))
+        if (Input.GetButtonDown("Fire2") && (Time.time - powerTime >= 10f))
         {
             StartCoroutine(ActivatePower());
             powerTime = Time.time;
-        }*/
+        }
     }
 
     void FireProjectile()
@@ -61,8 +61,8 @@ public class Pewdie1 : MonoBehaviour
 
     IEnumerator ActivatePower()
     {
-        player.invisible = true;
-        yield return new WaitForSeconds(5f);
-        player.invisible = false;
+        player.superSpeed = true;
+        yield return new WaitForSeconds(4f);
+        player.superSpeed = false;
     }
 }

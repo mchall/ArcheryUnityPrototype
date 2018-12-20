@@ -5,6 +5,7 @@ public class Player : MonoBehaviour
 {
     public int Score;
     public bool invisible;
+    public bool superSpeed;
 
     public float MovementSpeed = 8f;
 
