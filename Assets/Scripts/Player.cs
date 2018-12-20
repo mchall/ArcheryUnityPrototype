@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 
 public class Player : MonoBehaviour
 {
@@ -20,7 +21,9 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        bool controllerDetected = Input.GetJoystickNames().Length > 0;
+        bool controllerDetected = GamePad.GetState(PlayerIndex.One).IsConnected;
+
+        Debug.Log(controllerDetected);
 
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");
@@ -30,10 +33,9 @@ public class Player : MonoBehaviour
             currentMovement.Normalize();
             body.MovePosition(body.position + (currentMovement / MovementSpeed));
 
-            var to = body.position + currentMovement;
-
             if (controllerDetected)
             {
+                var to = body.position + currentMovement;
                 transform.LookAt(to);
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, to), Time.deltaTime * 1f);
             }
@@ -49,7 +51,7 @@ public class Player : MonoBehaviour
 
         if (!controllerDetected)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition); //todo: controller
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Plane ground = new Plane(Vector3.up, Vector3.zero);
             float rayLength;
 
