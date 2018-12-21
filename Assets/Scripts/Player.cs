@@ -69,4 +69,12 @@ public class Player : MonoBehaviour
     {
         Camera.main.transform.position = new Vector3(body.position.x, Camera.main.transform.position.y, body.position.z - 5);
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Death")
+        {
+            Destroy(gameObject);
+        }
+    }
 }

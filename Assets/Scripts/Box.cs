@@ -57,6 +57,12 @@ public class Box : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if(!dead && collision.gameObject.tag == "Death")
+        {
+            player.Score += health;
+            dead = true;
+        }
+
         if (collision.gameObject.tag == "Arrow" || (!isPox && collision.gameObject.tag == "PoxArrow"))
         {
             if (Time.time - flashTime >= 0.15f)
