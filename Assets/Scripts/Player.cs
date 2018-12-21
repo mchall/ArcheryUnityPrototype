@@ -23,8 +23,6 @@ public class Player : MonoBehaviour
     {
         bool controllerDetected = GamePad.GetState(PlayerIndex.One).IsConnected;
 
-        Debug.Log(controllerDetected);
-
         var h = Input.GetAxisRaw("Horizontal");
         var v = Input.GetAxisRaw("Vertical");
         var currentMovement = new Vector3(h, 0, v);
