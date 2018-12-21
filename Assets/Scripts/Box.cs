@@ -14,6 +14,7 @@ public class Box : MonoBehaviour
     public bool dead;
     int hitCount;
     float flashTime;
+    bool landed;
 
     void Start()
     {
@@ -37,12 +38,12 @@ public class Box : MonoBehaviour
             body.constraints = RigidbodyConstraints.FreezeAll;
             GetComponentInChildren<BodyAnimator>().enabled = false;
         }
-        else if (!dead && transform.position.y >= 1)
+        else if (!dead && !landed)
         {
             body.constraints = RigidbodyConstraints.None;
             GetComponentInChildren<BodyAnimator>().enabled = true;
         }
-        else if (!dead && player != null && !player.invisible && transform.position.y < 1)
+        else if (!dead && player != null && landed)
         {
             body.constraints = RigidbodyConstraints.None;
             GetComponentInChildren<BodyAnimator>().enabled = true;
@@ -57,7 +58,12 @@ public class Box : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if(!dead && collision.gameObject.tag == "Death")
+        if (!dead && collision.gameObject.tag == "Height")
+        {
+            landed = true;
+        }
+
+        if (!dead && collision.gameObject.tag == "Death")
         {
             player.Score += health;
             dead = true;

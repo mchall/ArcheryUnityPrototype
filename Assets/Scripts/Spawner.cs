@@ -23,16 +23,17 @@ public class Spawner : MonoBehaviour
 
     IEnumerator SpawnBox()
     {
+        yield return new WaitForSeconds(Random.Range(lower, upper));
+
         if (player != null)
         {
-            var point = Random.onUnitSphere * 2;
+            var point = Random.onUnitSphere * 3;
 
             var newBox = Instantiate(box);
             newBox.gameObject.SetActive(true);
             newBox.transform.position = transform.position + point;
             newBox.transform.rotation = transform.rotation;
 
-            yield return new WaitForSeconds(Random.Range(lower, upper));
             StartCoroutine(SpawnBox());
         }
     }
