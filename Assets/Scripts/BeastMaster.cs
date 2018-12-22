@@ -5,11 +5,12 @@ using XInputDotNetPure;
 public class BeastMaster : MonoBehaviour
 {
     public GameObject arrow;
+    public Material ghost;
 
     Player player;
 
     float fireTime;
-    float powerTime;
+    float powerTime = -9999f;
 
     void Start()
     {
@@ -52,8 +53,25 @@ public class BeastMaster : MonoBehaviour
 
     IEnumerator ActivatePower()
     {
+        var renderers = GetComponentsInChildren<Renderer>();
+
+        Material[] originals = new Material[renderers.Length];
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            originals[i] = renderers[i].material;
+            renderers[i].material = ghost;
+        }
+
         player.invisible = true;
+
         yield return new WaitForSeconds(5f);
+
+        for (int i = 0; i < renderers.Length; i++)
+        {
+            renderers[i].material = originals[i];
+        }
+
         player.invisible = false;
     }
 }

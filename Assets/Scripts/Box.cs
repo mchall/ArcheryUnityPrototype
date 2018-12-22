@@ -32,8 +32,7 @@ public class Box : MonoBehaviour
             GetComponentInChildren<BodyAnimator>().enabled = false;
             body.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         }
-
-        if (player.superSpeed && !dead)
+        else if (player.superSpeed && !dead)
         {
             body.constraints = RigidbodyConstraints.FreezeAll;
             GetComponentInChildren<BodyAnimator>().enabled = false;
@@ -69,7 +68,7 @@ public class Box : MonoBehaviour
             dead = true;
         }
 
-        if (collision.gameObject.tag == "Arrow" || (!isPox && collision.gameObject.tag == "PoxArrow"))
+        if (collision.gameObject.tag == "Arrow" || collision.gameObject.tag == "Trolley" || (!isPox && collision.gameObject.tag == "PoxArrow"))
         {
             if (Time.time - flashTime >= 0.15f)
             {
@@ -96,6 +95,12 @@ public class Box : MonoBehaviour
                     var force = collision.relativeVelocity * 10;
                     body.AddForce(force);
 
+                    if (collision.gameObject.tag == "Trolley")
+                    {
+                        force = collision.relativeVelocity.normalized * 15;
+                        body.AddForce(new Vector3(force.x, 2, force.z), ForceMode.Impulse);
+                    }
+
                     body.mass = 0.1f;
 
                     StartCoroutine(Destroy());
@@ -103,11 +108,6 @@ public class Box : MonoBehaviour
 
                 flashTime = Time.time;
             }
-        }
-        else if (collision.gameObject.tag == "Trolley")
-        {
-            var force = collision.relativeVelocity.normalized * 15;
-            body.AddForce(new Vector3(force.x, 5, force.z), ForceMode.Impulse);
         }
         else if (!dead && collision.gameObject.tag == "Player")
         {
