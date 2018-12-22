@@ -9,8 +9,6 @@ using XInputDotNetPure;
 public class Scene : MonoBehaviour
 {
     Transform gameMenu;
-    float keyboardTime;
-    Transform focusedControl;
 
     void Start()
     {
