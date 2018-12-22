@@ -49,7 +49,7 @@ public class Scene : MonoBehaviour
 
     public void Home()
     {
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("Main");
     }
 
     public void LoseMenu()
