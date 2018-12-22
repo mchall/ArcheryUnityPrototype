@@ -6,12 +6,13 @@ public class Pewdie1 : MonoBehaviour
 {
     public GameObject laser1;
     public GameObject laser2;
+    public SimpleHealthBar healthBar;
 
     Player player;
 
     bool left;
     float fireTime;
-    float powerTime;
+    float powerTime = -9999f;
 
     void Start()
     {
@@ -36,11 +37,18 @@ public class Pewdie1 : MonoBehaviour
             fireTime = Time.time;
         }
 
-        if ((Input.GetButtonDown("Fire2") || rightTrigger) && (Time.time - powerTime >= 10f))
+        if ((Input.GetButtonDown("Fire2") || rightTrigger) && (Time.time - powerTime >= 30f))
         {
             StartCoroutine(ActivatePower());
             powerTime = Time.time;
         }
+
+        var power = Time.time - powerTime;
+        if (power < 0)
+            power = 0;
+        if (power > 30f)
+            power = 30f;
+        healthBar.UpdateBar(power, 30f);
     }
 
     void FireProjectile()
@@ -72,7 +80,7 @@ public class Pewdie1 : MonoBehaviour
     IEnumerator ActivatePower()
     {
         player.superSpeed = true;
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
         player.superSpeed = false;
     }
 }

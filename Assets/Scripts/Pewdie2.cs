@@ -5,10 +5,11 @@ using XInputDotNetPure;
 public class Pewdie2 : MonoBehaviour
 {
     public GameObject trolley;
+    public SimpleHealthBar healthBar;
 
     Player player;
 
-    float powerTime;
+    float powerTime= -9999f;
 
     void Start()
     {
@@ -31,12 +32,19 @@ public class Pewdie2 : MonoBehaviour
             StartCoroutine(ActivatePower());
             powerTime = Time.time;
         }
+
+        var power = Time.time - powerTime;
+        if (power < 0)
+            power = 0;
+        if (power > 30f)
+            power = 30f;
+        healthBar.UpdateBar(power, 30f);
     }
 
     IEnumerator ActivatePower()
     {
-        trolley.tag = "Arrow";
+        player.superSpeed = true;
         yield return new WaitForSeconds(5f);
-        trolley.tag = "Trolley";
+        player.superSpeed = false;
     }
 }

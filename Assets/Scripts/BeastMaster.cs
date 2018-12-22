@@ -6,6 +6,7 @@ public class BeastMaster : MonoBehaviour
 {
     public GameObject arrow;
     public Material ghost;
+    public SimpleHealthBar healthBar;
 
     Player player;
 
@@ -34,11 +35,18 @@ public class BeastMaster : MonoBehaviour
             fireTime = Time.time;
         }
 
-        if ((Input.GetButtonDown("Fire2") || rightTrigger) && (Time.time - powerTime >= 10f))
+        if ((Input.GetButtonDown("Fire2") || rightTrigger) && (Time.time - powerTime >= 30f))
         {
             StartCoroutine(ActivatePower());
             powerTime = Time.time;
         }
+
+        var power = Time.time - powerTime;
+        if (power < 0)
+            power = 0;
+        if (power > 30f)
+            power = 30f;
+        healthBar.UpdateBar(power, 30f);
     }
 
     void FireProjectile()

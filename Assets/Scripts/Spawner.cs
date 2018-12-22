@@ -25,7 +25,7 @@ public class Spawner : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(lower, upper));
 
-        if (player != null)
+        if (player != null && !player.superSpeed && !player.invisible)
         {
             var point = Random.onUnitSphere * 3;
 
@@ -33,8 +33,8 @@ public class Spawner : MonoBehaviour
             newBox.gameObject.SetActive(true);
             newBox.transform.position = transform.position + point;
             newBox.transform.rotation = transform.rotation;
-
-            StartCoroutine(SpawnBox());
         }
+
+        StartCoroutine(SpawnBox());
     }
 }
