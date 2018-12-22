@@ -77,7 +77,7 @@ public class Box : MonoBehaviour
 
                 hitCount++;
 
-                if (hitCount >= health)
+                if (hitCount >= health && !dead)
                 {
                     body.constraints = RigidbodyConstraints.None;
 
@@ -112,6 +112,7 @@ public class Box : MonoBehaviour
         else if (!dead && collision.gameObject.tag == "Player")
         {
             Destroy(collision.gameObject);
+            FindObjectOfType<Canvas>().GetComponent<Scene>().LoseMenu();
         }
     }
 

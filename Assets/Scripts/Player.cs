@@ -31,13 +31,6 @@ public class Player : MonoBehaviour
             currentMovement.Normalize();
             body.MovePosition(body.position + (currentMovement / MovementSpeed));
 
-            if (controllerDetected)
-            {
-                var to = body.position + currentMovement;
-                transform.LookAt(to);
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, to), Time.deltaTime * 1f);
-            }
-
             if (animator != null)
                 animator.enabled = true;
         }
@@ -61,6 +54,20 @@ public class Player : MonoBehaviour
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, look), Time.deltaTime * 1f);
             }
         }
+        else if (controllerDetected)
+        {
+            var h2 = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X;
+            var v2 = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y;
+            var lookTo = new Vector3(h2, 0, v2);
+            if (lookTo.sqrMagnitude > 0.2f)
+            {
+                lookTo.Normalize();
+
+                var to = body.position + lookTo;
+                transform.LookAt(to);
+                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, to), Time.deltaTime * 1f);
+            }
+        }
     }
 
     void Update()
@@ -73,6 +80,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == "Death")
         {
             Destroy(gameObject);
+            FindObjectOfType<Canvas>().GetComponent<Scene>().LoseMenu();
         }
     }
 }

@@ -37,6 +37,7 @@ public class PoxArrow : MonoBehaviour
             if (collision.gameObject.tag == "Player")
             {
                 Destroy(collision.gameObject);
+                FindObjectOfType<Canvas>().GetComponent<Scene>().LoseMenu();
             }
         }
     }

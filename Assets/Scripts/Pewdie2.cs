@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 
 public class Pewdie2 : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class Pewdie2 : MonoBehaviour
 
     Player player;
 
-    float powerTime = -9999;
+    float powerTime;
 
     void Start()
     {
@@ -16,7 +17,16 @@ public class Pewdie2 : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Fire2") && (Time.time - powerTime >= 30f))
+        var leftTrigger = false;
+        var rightTrigger = false;
+
+        if (GamePad.GetState(PlayerIndex.One).IsConnected)
+        {
+            leftTrigger = GamePad.GetState(PlayerIndex.One).Triggers.Left > 0f;
+            rightTrigger = GamePad.GetState(PlayerIndex.One).Triggers.Right > 0f;
+        }
+
+        if ((Input.GetButtonDown("Fire2") || rightTrigger) && (Time.time - powerTime >= 30f))
         {
             StartCoroutine(ActivatePower());
             powerTime = Time.time;
