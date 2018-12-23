@@ -64,7 +64,7 @@ public class Box : MonoBehaviour
 
         if (!dead && collision.gameObject.tag == "Death")
         {
-            player.Score += health;
+            //UserData.Instance.CurrentScore += health;
             dead = true;
         }
 
@@ -80,7 +80,7 @@ public class Box : MonoBehaviour
                 {
                     body.constraints = RigidbodyConstraints.None;
 
-                    player.Score += health;
+                    UserData.Instance.CurrentScore += health;
                     dead = true;
 
                     if (isPox)
@@ -112,7 +112,7 @@ public class Box : MonoBehaviour
         else if (!dead && collision.gameObject.tag == "Player")
         {
             var player = collision.gameObject.GetComponent<Player>();
-            if(player != null && !player.invincible)
+            if (player != null && !player.invincible)
             {
                 Destroy(collision.gameObject);
                 FindObjectOfType<Canvas>().GetComponent<Scene>().LoseMenu();

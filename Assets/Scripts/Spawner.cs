@@ -12,13 +12,13 @@ public class Spawner : MonoBehaviour
 
     void Start()
     {
-        player = FindObjectOfType<Player>();
         StartCoroutine(SpawnBox());
     }
 
     void Update()
     {
-
+        if (player == null)
+            player = FindObjectOfType<Player>();
     }
 
     IEnumerator SpawnBox()

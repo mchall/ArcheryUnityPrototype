@@ -8,9 +8,17 @@ using XInputDotNetPure;
 
 public class Menu : MonoBehaviour
 {
+    public Text text1;
+    public Text text2;
+    public Text text3;
+
     void Start()
     {
         AspectTweak();
+
+        text1.text = "high score \n" + UserData.Instance.PewdieScore.ToString().Replace('0', 'o');
+        text2.text = "high score \n" + UserData.Instance.BeastMasterScore.ToString().Replace('0', 'o');
+        text3.text = "high score \n" + UserData.Instance.TrolleyScore.ToString().Replace('0', 'o');
     }
 
     void Update()
@@ -31,8 +39,21 @@ public class Menu : MonoBehaviour
             Camera.main.orthographicSize = 13;
     }
 
-    public void Play()
+    public void Play1()
     {
+        UserData.Instance.CurrentCharacter = 1;
+        SceneManager.LoadScene("Game");
+    }
+
+    public void Play2()
+    {
+        UserData.Instance.CurrentCharacter = 2;
+        SceneManager.LoadScene("Game");
+    }
+
+    public void Play3()
+    {
+        UserData.Instance.CurrentCharacter = 3;
         SceneManager.LoadScene("Game");
     }
 

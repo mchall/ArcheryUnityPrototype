@@ -55,6 +55,25 @@ public class Scene : MonoBehaviour
         if (gameMenu.gameObject.activeInHierarchy)
             return;
 
+        switch (UserData.Instance.CurrentCharacter)
+        {
+            case 1:
+                if (UserData.Instance.CurrentScore > UserData.Instance.PewdieScore)
+                    UserData.Instance.PewdieScore = UserData.Instance.CurrentScore;
+                break;
+            case 2:
+                if (UserData.Instance.CurrentScore > UserData.Instance.BeastMasterScore)
+                    UserData.Instance.BeastMasterScore = UserData.Instance.CurrentScore;
+                break;
+            case 3:
+                if (UserData.Instance.CurrentScore > UserData.Instance.TrolleyScore)
+                    UserData.Instance.TrolleyScore = UserData.Instance.CurrentScore;
+                break;
+            default:
+                UserData.Instance.PewdieScore = UserData.Instance.CurrentScore;
+                break;
+        }
+
         StartCoroutine(DoShowCanvas(1f));
     }
 

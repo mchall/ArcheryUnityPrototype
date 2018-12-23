@@ -10,13 +10,15 @@ public class ScoreDisplay : MonoBehaviour
 
     void Start()
     {
-        player = FindObjectOfType<Player>();
         text = GetComponent<Text>();
     }
 
     void Update()
     {
+        if (player == null)
+            player = FindObjectOfType<Player>();
+
         if (player != null)
-            text.text = "Score: " + player.Score.ToString();
+            text.text = "Score: " + UserData.Instance.CurrentScore.ToString().Replace('0', 'o');
     }
 }
