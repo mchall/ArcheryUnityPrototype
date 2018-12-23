@@ -111,8 +111,12 @@ public class Box : MonoBehaviour
         }
         else if (!dead && collision.gameObject.tag == "Player")
         {
-            Destroy(collision.gameObject);
-            FindObjectOfType<Canvas>().GetComponent<Scene>().LoseMenu();
+            var player = collision.gameObject.GetComponent<Player>();
+            if(player != null && !player.invincible)
+            {
+                Destroy(collision.gameObject);
+                FindObjectOfType<Canvas>().GetComponent<Scene>().LoseMenu();
+            }
         }
     }
 

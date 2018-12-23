@@ -7,6 +7,8 @@ public class Pewdie1 : MonoBehaviour
     public GameObject laser1;
     public GameObject laser2;
     public SimpleHealthBar healthBar;
+    public GameObject chair;
+    public GameObject pewdie;
 
     Player player;
 
@@ -17,7 +19,7 @@ public class Pewdie1 : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<Player>();
-
+        player.invincible = true;
     }
 
     void Update()
@@ -53,6 +55,9 @@ public class Pewdie1 : MonoBehaviour
 
     void FireProjectile()
     {
+        if (player.invincible)
+            return;
+
         if (left)
         {
             var leftLaser = Instantiate(laser1);
@@ -79,8 +84,12 @@ public class Pewdie1 : MonoBehaviour
 
     IEnumerator ActivatePower()
     {
-        player.superSpeed = true;
+        player.invincible = true;
+        pewdie.SetActive(false);
+        chair.SetActive(true);
         yield return new WaitForSeconds(5f);
-        player.superSpeed = false;
+        player.invincible = false;
+        chair.SetActive(false);
+        pewdie.SetActive(true);
     }
 }

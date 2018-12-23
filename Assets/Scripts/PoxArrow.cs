@@ -29,8 +29,11 @@ public class PoxArrow : MonoBehaviour
             GetComponent<BoxCollider>().enabled = false;
             Destroy(body);
 
-            transform.position = transform.position + (transform.forward / 2);
-            transform.SetParent(collision.gameObject.transform);
+            if (collision.gameObject.tag != "Arrow")
+            {
+                transform.position = transform.position + (transform.forward / 2);
+                transform.SetParent(collision.gameObject.transform);
+            }
 
             StartCoroutine(Decay());
 
