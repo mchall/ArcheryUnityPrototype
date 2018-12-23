@@ -19,7 +19,6 @@ public class Pewdie1 : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<Player>();
-        player.invincible = true;
     }
 
     void Update()
