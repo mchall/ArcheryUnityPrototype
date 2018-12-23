@@ -73,13 +73,9 @@ public class Player : MonoBehaviour
     void Update()
     {
         Camera.main.transform.position = new Vector3(body.position.x, Camera.main.transform.position.y, body.position.z - 5);
-    }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Death")
+        if (transform.position.y < -3)
         {
-            Destroy(gameObject);
             FindObjectOfType<Canvas>().GetComponent<Scene>().LoseMenu();
         }
     }

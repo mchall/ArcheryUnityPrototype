@@ -27,7 +27,13 @@ public class Box : MonoBehaviour
 
     void Update()
     {
-        if (!dead && player.invisible)
+        if (!dead && transform.position.y < -3)
+        {
+            //UserData.Instance.CurrentScore += health;
+            dead = true;
+            StartCoroutine(Destroy());
+        }
+        else if (!dead && player.invisible)
         {
             GetComponentInChildren<BodyAnimator>().enabled = false;
             body.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
@@ -60,12 +66,6 @@ public class Box : MonoBehaviour
         if (!dead && collision.gameObject.tag == "Height")
         {
             landed = true;
-        }
-
-        if (!dead && collision.gameObject.tag == "Death")
-        {
-            //UserData.Instance.CurrentScore += health;
-            dead = true;
         }
 
         if (collision.gameObject.tag == "Arrow" || collision.gameObject.tag == "Trolley" || (!isPox && collision.gameObject.tag == "PoxArrow"))
