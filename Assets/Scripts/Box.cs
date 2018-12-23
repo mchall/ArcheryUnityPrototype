@@ -15,6 +15,7 @@ public class Box : MonoBehaviour
     int hitCount;
     float flashTime;
     bool landed;
+    Vector3 destination;
 
     void Start()
     {
@@ -22,7 +23,9 @@ public class Box : MonoBehaviour
         player = FindObjectOfType<Player>();
 
         if (trainMode)
-            body.transform.LookAt(player.transform.position);
+        {
+            destination = (body.transform.position - player.transform.position).normalized * -100;
+        }
     }
 
     void Update()
@@ -55,6 +58,8 @@ public class Box : MonoBehaviour
 
             if (!trainMode)
                 body.transform.LookAt(player.transform.position);
+            else
+                body.transform.LookAt(destination);
 
             if (!isPox)
                 body.MovePosition(body.position + (body.transform.forward * speed));
