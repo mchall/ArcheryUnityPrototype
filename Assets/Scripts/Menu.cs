@@ -12,6 +12,8 @@ public class Menu : MonoBehaviour
     public Text text2;
     public Text text3;
 
+    Transform focusedControl;
+
     void Start()
     {
         AspectTweak();
@@ -37,6 +39,39 @@ public class Menu : MonoBehaviour
             Camera.main.orthographicSize = 12;
         else
             Camera.main.orthographicSize = 13;
+    }
+
+    public void OnMouseHover()
+    {
+        PointerEventData pe = new PointerEventData(EventSystem.current);
+        pe.position = Input.mousePosition;
+
+        List<RaycastResult> hits = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(pe, hits);
+        foreach (RaycastResult h in hits)
+        {
+            if (h.gameObject != null && h.gameObject.GetComponent<Button>() != null)
+            {
+                FocusControl(h.gameObject.transform);
+                break;
+            }
+        }
+    }
+
+    private void FocusControl(Transform control)
+    {
+        if (control.name == "Left" || control.name == "Right")
+            return;
+
+        if (focusedControl != null)
+        {
+            focusedControl.transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        focusedControl = control;
+        EventSystem.current.SetSelectedGameObject(focusedControl.gameObject);
+
+        control.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
     }
 
     public void Play1()
