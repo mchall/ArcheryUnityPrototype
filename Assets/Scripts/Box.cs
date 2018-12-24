@@ -16,11 +16,14 @@ public class Box : MonoBehaviour
     float flashTime;
     bool landed;
     Vector3 destination;
+    AudioHelper audioHelper;
 
     void Start()
     {
         body = GetComponent<Rigidbody>();
         player = FindObjectOfType<Player>();
+
+        audioHelper = Camera.main.GetComponent<AudioHelper>();
 
         if (trainMode)
         {
@@ -80,6 +83,9 @@ public class Box : MonoBehaviour
                 StartCoroutine(Flash());
 
                 hitCount++;
+
+                if (!dead && audioHelper != null)
+                    audioHelper.Die();
 
                 if (hitCount >= health && !dead)
                 {

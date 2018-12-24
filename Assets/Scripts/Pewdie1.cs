@@ -15,10 +15,13 @@ public class Pewdie1 : MonoBehaviour
     bool left;
     float fireTime;
     float powerTime = -9999f;
+    AudioHelper audioHelper;
 
     void Start()
     {
         player = FindObjectOfType<Player>();
+        audioHelper = Camera.main.GetComponent<AudioHelper>();
+        audioHelper.Muscles();
     }
 
     void Update()
@@ -57,6 +60,9 @@ public class Pewdie1 : MonoBehaviour
         if (player.invincible)
             return;
 
+        if (audioHelper != null)
+            audioHelper.Laser();
+
         if (left)
         {
             var leftLaser = Instantiate(laser1);
@@ -83,6 +89,7 @@ public class Pewdie1 : MonoBehaviour
 
     IEnumerator ActivatePower()
     {
+        audioHelper.ButCanYouDoThis();
         player.invincible = true;
         pewdie.SetActive(false);
         chair.SetActive(true);

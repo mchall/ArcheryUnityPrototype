@@ -9,6 +9,7 @@ public class BeastMaster : MonoBehaviour
     public SimpleHealthBar healthBar;
 
     Player player;
+    AudioHelper audioHelper;
 
     float fireTime;
     float powerTime = -9999f;
@@ -16,6 +17,8 @@ public class BeastMaster : MonoBehaviour
     void Start()
     {
         player = FindObjectOfType<Player>();
+        audioHelper = Camera.main.GetComponent<AudioHelper>();
+        audioHelper.BeastMasterIntro();
     }
 
     void Update()
@@ -61,6 +64,7 @@ public class BeastMaster : MonoBehaviour
 
     IEnumerator ActivatePower()
     {
+        audioHelper.BeastMaster();
         var renderers = GetComponentsInChildren<Renderer>();
 
         Material[] originals = new Material[renderers.Length];
