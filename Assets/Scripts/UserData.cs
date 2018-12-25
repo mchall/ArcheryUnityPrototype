@@ -39,6 +39,7 @@ public class UserData
 
     public int CurrentCharacter { get; set; }
     public int CurrentScore { get; set; }
+    public bool MusicOff { get; set; }
 
     public int PewdieScore
     {

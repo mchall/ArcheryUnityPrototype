@@ -33,7 +33,7 @@ public class MusicPlayer : MonoBehaviour
         InitializeSource();
 
         var clip = gameClip;
-        if (clip != null)
+        if (clip != null && !UserData.Instance.MusicOff)
         {
             if (!source.isPlaying || source.clip != clip)
             {
@@ -47,10 +47,6 @@ public class MusicPlayer : MonoBehaviour
         {
             Silence();
         }
-    }
-
-    void Update()
-    {
     }
 
     void Awake()

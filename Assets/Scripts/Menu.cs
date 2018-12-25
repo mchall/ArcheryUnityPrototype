@@ -11,6 +11,7 @@ public class Menu : MonoBehaviour
     public Text text1;
     public Text text2;
     public Text text3;
+    public Image cross;
 
     Transform focusedControl;
 
@@ -18,9 +19,15 @@ public class Menu : MonoBehaviour
     {
         AspectTweak();
 
-        text1.text = "high score \n" + UserData.Instance.PewdieScore.ToString().Replace('0', 'o');
-        text2.text = "high score \n" + UserData.Instance.BeastMasterScore.ToString().Replace('0', 'o');
-        text3.text = "high score \n" + UserData.Instance.TrolleyScore.ToString().Replace('0', 'o');
+        if (text1 != null)
+            text1.text = "high score \n" + UserData.Instance.PewdieScore.ToString().Replace('0', 'o');
+        if (text2 != null)
+            text2.text = "high score \n" + UserData.Instance.BeastMasterScore.ToString().Replace('0', 'o');
+        if (text3 != null)
+            text3.text = "high score \n" + UserData.Instance.TrolleyScore.ToString().Replace('0', 'o');
+
+        if(cross != null && UserData.Instance.MusicOff)
+            cross.gameObject.SetActive(true);
     }
 
     void Update()
@@ -72,6 +79,13 @@ public class Menu : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(focusedControl.gameObject);
 
         control.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
+    }
+
+    public void ToggleMusic()
+    {
+        UserData.Instance.MusicOff = !UserData.Instance.MusicOff;
+        cross.gameObject.SetActive(UserData.Instance.MusicOff);
+        MusicPlayer.Instance.PlayGameMusic();
     }
 
     public void Back()
