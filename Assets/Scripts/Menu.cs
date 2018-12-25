@@ -74,6 +74,16 @@ public class Menu : MonoBehaviour
         control.transform.localScale = new Vector3(1.05f, 1.05f, 1.05f);
     }
 
+    public void Back()
+    {
+        SceneManager.LoadScene("Main");
+    }
+
+    public void Help()
+    {
+        SceneManager.LoadScene("Help");
+    }
+
     public void Play1()
     {
         UserData.Instance.CurrentCharacter = 1;

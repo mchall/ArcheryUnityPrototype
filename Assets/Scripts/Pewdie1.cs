@@ -21,7 +21,6 @@ public class Pewdie1 : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         audioHelper = Camera.main.GetComponent<AudioHelper>();
-        audioHelper.Muscles();
     }
 
     void Update()
@@ -89,7 +88,6 @@ public class Pewdie1 : MonoBehaviour
 
     IEnumerator ActivatePower()
     {
-        audioHelper.ButCanYouDoThis();
         player.invincible = true;
         pewdie.SetActive(false);
         chair.SetActive(true);

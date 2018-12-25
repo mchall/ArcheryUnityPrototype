@@ -7,6 +7,7 @@ public class Pox : MonoBehaviour
     public GameObject readyText;
     public GameObject aimText;
     public GameObject fireText;
+    public AudioSource audioSource;
 
     Rigidbody body;
     Player player;
@@ -48,6 +49,8 @@ public class Pox : MonoBehaviour
         if (!box.dead && player != null && !player.invisible && !player.superSpeed)
         {
             fireText.SetActive(true);
+
+            audioSource.Play();
 
             var newArrow = Instantiate(arrow);
             newArrow.gameObject.SetActive(true);

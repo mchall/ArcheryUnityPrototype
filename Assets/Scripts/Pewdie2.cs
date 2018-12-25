@@ -16,7 +16,6 @@ public class Pewdie2 : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         audioHelper = Camera.main.GetComponent<AudioHelper>();
-        audioHelper.Reee();
     }
 
     void Update()
@@ -46,7 +45,6 @@ public class Pewdie2 : MonoBehaviour
 
     IEnumerator ActivatePower()
     {
-        audioHelper.Fast();
         player.invincible = true;
         player.superSpeed = true;
         yield return new WaitForSeconds(5f);

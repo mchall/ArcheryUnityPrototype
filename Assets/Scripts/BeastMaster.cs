@@ -18,7 +18,6 @@ public class BeastMaster : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         audioHelper = Camera.main.GetComponent<AudioHelper>();
-        audioHelper.BeastMasterIntro();
     }
 
     void Update()
@@ -54,6 +53,8 @@ public class BeastMaster : MonoBehaviour
 
     void FireProjectile()
     {
+        audioHelper.Bow();
+
         var newArrow = Instantiate(arrow);
         newArrow.gameObject.SetActive(true);
         newArrow.transform.position = arrow.transform.position;
@@ -64,7 +65,6 @@ public class BeastMaster : MonoBehaviour
 
     IEnumerator ActivatePower()
     {
-        audioHelper.BeastMaster();
         var renderers = GetComponentsInChildren<Renderer>();
 
         Material[] originals = new Material[renderers.Length];
