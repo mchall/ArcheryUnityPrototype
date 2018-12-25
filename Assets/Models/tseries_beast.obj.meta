@@ -8,6 +8,7 @@ ModelImporter:
     400000: tseries_beast
     400002: //RootNode
     2100000: palette
+    2100002: tseries_beastMat
     2300000: tseries_beast
     3300000: tseries_beast
     4300000: tseries_beast
