@@ -77,7 +77,7 @@ public class BeastMaster : MonoBehaviour
 
         player.invisible = true;
 
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(10f);
 
         for (int i = 0; i < renderers.Length; i++)
         {
