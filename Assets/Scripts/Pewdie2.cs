@@ -4,11 +4,12 @@ using XInputDotNetPure;
 
 public class Pewdie2 : MonoBehaviour
 {
-    public GameObject trolley;
     public SimpleHealthBar healthBar;
 
     Player player;
     AudioHelper audioHelper;
+    TrolleyAnimator trolley;
+    Quaternion rotation;
 
     float powerTime= -9999f;
 
@@ -16,6 +17,7 @@ public class Pewdie2 : MonoBehaviour
     {
         player = FindObjectOfType<Player>();
         audioHelper = Camera.main.GetComponent<AudioHelper>();
+        trolley = GetComponentInChildren<TrolleyAnimator>();
     }
 
     void Update()
@@ -45,10 +47,14 @@ public class Pewdie2 : MonoBehaviour
 
     IEnumerator ActivatePower()
     {
+        rotation = trolley.gameObject.transform.rotation;
+
+        trolley.enabled = true;
         player.invincible = true;
-        player.superSpeed = true;
         yield return new WaitForSeconds(5f);
-        player.superSpeed = false;
         player.invincible = false;
+        trolley.enabled = false;
+
+        trolley.gameObject.transform.rotation = rotation;
     }
 }
