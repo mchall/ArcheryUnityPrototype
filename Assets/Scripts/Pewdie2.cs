@@ -9,7 +9,6 @@ public class Pewdie2 : MonoBehaviour
     Player player;
     AudioHelper audioHelper;
     TrolleyAnimator trolley;
-    Quaternion rotation;
 
     float powerTime= -9999f;
 
@@ -43,18 +42,17 @@ public class Pewdie2 : MonoBehaviour
         if (power > 30f)
             power = 30f;
         healthBar.UpdateBar(power, 30f);
+
+        if (!trolley.enabled)
+            trolley.gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
     IEnumerator ActivatePower()
     {
-        rotation = trolley.gameObject.transform.rotation;
-
         trolley.enabled = true;
         player.invincible = true;
         yield return new WaitForSeconds(5f);
         player.invincible = false;
         trolley.enabled = false;
-
-        trolley.gameObject.transform.rotation = rotation;
     }
 }
