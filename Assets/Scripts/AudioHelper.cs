@@ -22,7 +22,7 @@ public class AudioHelper : MonoBehaviour
 
     public void Bow()
     {
-        source.PlayOneShot(bow);
+        source.PlayOneShot(bow, 0.4f);
     }
 
     public void Die()
