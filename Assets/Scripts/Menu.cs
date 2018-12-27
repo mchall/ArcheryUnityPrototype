@@ -93,6 +93,11 @@ public class Menu : MonoBehaviour
         SceneManager.LoadScene("Main");
     }
 
+    public void Controls()
+    {
+        SceneManager.LoadScene("Controls");
+    }
+
     public void Help()
     {
         SceneManager.LoadScene("Help");
