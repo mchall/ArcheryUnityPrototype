@@ -25,6 +25,16 @@ public class Pewdie1 : MonoBehaviour
 
     void Update()
     {
+#if UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_BLACKBERRY
+        var h2 = player.rightController.GetTouchPosition.x;
+        var v2 = player.rightController.GetTouchPosition.y;
+        var lookTo = new Vector3(h2, 0, v2);
+        if (lookTo.sqrMagnitude > 0.2f && Time.time - fireTime >= 0.2f)
+        {
+            FireProjectile();
+            fireTime = Time.time;
+        }
+#else
         var leftTrigger = false;
         var rightTrigger = false;
 
@@ -45,8 +55,9 @@ public class Pewdie1 : MonoBehaviour
             StartCoroutine(ActivatePower());
             powerTime = Time.time;
         }
+#endif
 
-        var power = Time.time - powerTime;
+            var power = Time.time - powerTime;
         if (power < 0)
             power = 0;
         if (power > 30f)

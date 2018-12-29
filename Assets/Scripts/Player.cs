@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
 
     public float MovementSpeed = 8f;
 
+    public SimpleTouchController leftController;
+    public SimpleTouchController rightController;
+
     Rigidbody body;
     PersonAnimator animator;
 
@@ -21,6 +24,37 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+#if UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_BLACKBERRY
+
+        var h = leftController.GetTouchPosition.x;
+        var v = leftController.GetTouchPosition.y;
+        var currentMovement = new Vector3(h, 0, v);
+        if (currentMovement.sqrMagnitude > 0.1f)
+        {
+            currentMovement.Normalize();
+            body.MovePosition(body.position + (currentMovement / MovementSpeed));
+
+            if (animator != null)
+                animator.enabled = true;
+        }
+        else
+        {
+            if (animator != null)
+                animator.enabled = false;
+        }
+
+        var h2 = rightController.GetTouchPosition.x;
+        var v2 = rightController.GetTouchPosition.y;
+        var lookTo = new Vector3(h2, 0, v2);
+        if (lookTo.sqrMagnitude > 0.2f)
+        {
+            lookTo.Normalize();
+
+            var to = body.position + lookTo;
+            transform.LookAt(to);
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, to), Time.deltaTime * 1f);
+        }
+#else
         bool controllerDetected = GamePad.GetState(PlayerIndex.One).IsConnected;
 
         var h = Input.GetAxisRaw("Horizontal");
@@ -68,6 +102,7 @@ public class Player : MonoBehaviour
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, to), Time.deltaTime * 1f);
             }
         }
+#endif
     }
 
     void Update()

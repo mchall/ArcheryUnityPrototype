@@ -21,6 +21,9 @@ public class Pewdie2 : MonoBehaviour
 
     void Update()
     {
+#if UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_BLACKBERRY
+#else
+
         var leftTrigger = false;
         var rightTrigger = false;
 
@@ -35,6 +38,7 @@ public class Pewdie2 : MonoBehaviour
             StartCoroutine(ActivatePower());
             powerTime = Time.time;
         }
+#endif
 
         var power = Time.time - powerTime;
         if (power < 0)
