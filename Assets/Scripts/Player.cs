@@ -11,7 +11,6 @@ public class Player : MonoBehaviour
     public float MovementSpeed = 8f;
 
     public SimpleTouchController leftController;
-    public SimpleTouchController rightController;
 
     Rigidbody body;
     PersonAnimator animator;
@@ -43,23 +42,16 @@ public class Player : MonoBehaviour
                 animator.enabled = false;
         }
 
-        /*var h2 = rightController.GetTouchPosition.x;
-        var v2 = rightController.GetTouchPosition.y;
-        var lookTo = new Vector3(h2, 0, v2);
-        if (lookTo.sqrMagnitude > 0.2f)
-        {
-            lookTo.Normalize();
 
-            var to = body.position + lookTo;
-            transform.LookAt(to);
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, to), Time.deltaTime * 1f);
-        }*/
-
-        if (Input.touchCount > 0)
+        for (int i = 0; i < Input.touchCount; i++)
         {
-            Touch touch = Input.GetTouch(0);
-            var point = Camera.main.ScreenToWorldPoint(touch.position);
-            Ray ray = Camera.main.ScreenPointToRay(point);
+            Touch touch = Input.GetTouch(i);
+            if (touch.position.x < 200 && touch.position.y < 200)
+            {
+                continue;
+            }
+
+            Ray ray = Camera.main.ScreenPointToRay(touch.position);
             Plane ground = new Plane(Vector3.up, Vector3.zero);
             float rayLength;
 
@@ -71,8 +63,6 @@ public class Player : MonoBehaviour
                 transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, look), Time.deltaTime * 1f);
             }
         }
-
-
 
 #else
         bool controllerDetected = GamePad.GetState(PlayerIndex.One).IsConnected;
