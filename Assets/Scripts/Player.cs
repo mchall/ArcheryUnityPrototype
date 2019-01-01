@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
                 animator.enabled = false;
         }
 
-        /*var h2 = rightController.GetTouchPosition.x;
+        var h2 = rightController.GetTouchPosition.x;
         var v2 = rightController.GetTouchPosition.y;
         var lookTo = new Vector3(h2, 0, v2);
         if (lookTo.sqrMagnitude > 0.2f)
@@ -53,27 +53,7 @@ public class Player : MonoBehaviour
             var to = body.position + lookTo;
             transform.LookAt(to);
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, to), Time.deltaTime * 1f);
-        }*/
-
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            var point = Camera.main.ScreenToWorldPoint(touch.position);
-            Ray ray = Camera.main.ScreenPointToRay(point);
-            Plane ground = new Plane(Vector3.up, Vector3.zero);
-            float rayLength;
-
-            if (ground.Raycast(ray, out rayLength))
-            {
-                Vector3 look = ray.GetPoint(rayLength);
-
-                transform.LookAt(new Vector3(look.x, body.position.y, look.z));
-                transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.FromToRotation(transform.position, look), Time.deltaTime * 1f);
-            }
         }
-
-
-
 #else
         bool controllerDetected = GamePad.GetState(PlayerIndex.One).IsConnected;
 
