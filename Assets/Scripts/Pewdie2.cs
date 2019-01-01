@@ -51,15 +51,6 @@ public class Pewdie2 : MonoBehaviour
             trolley.gameObject.transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
-    public void MobilePower()
-    {
-        if (Time.time - powerTime >= 30f)
-        {
-            StartCoroutine(ActivatePower());
-            powerTime = Time.time;
-        }
-    }
-
     IEnumerator ActivatePower()
     {
         trolley.enabled = true;

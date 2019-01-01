@@ -26,7 +26,10 @@ public class Pewdie1 : MonoBehaviour
     void Update()
     {
 #if UNITY_IPHONE || UNITY_ANDROID || UNITY_WP8 || UNITY_BLACKBERRY
-        if (Time.time - fireTime >= 0.2f)
+        var h2 = player.rightController.GetTouchPosition.x;
+        var v2 = player.rightController.GetTouchPosition.y;
+        var lookTo = new Vector3(h2, 0, v2);
+        if (lookTo.sqrMagnitude > 0.2f && Time.time - fireTime >= 0.2f)
         {
             FireProjectile();
             fireTime = Time.time;
@@ -54,21 +57,12 @@ public class Pewdie1 : MonoBehaviour
         }
 #endif
 
-        var power = Time.time - powerTime;
+            var power = Time.time - powerTime;
         if (power < 0)
             power = 0;
         if (power > 30f)
             power = 30f;
         healthBar.UpdateBar(power, 30f);
-    }
-
-    public void MobilePower()
-    {
-        if (Time.time - powerTime >= 30f)
-        {
-            StartCoroutine(ActivatePower());
-            powerTime = Time.time;
-        }
     }
 
     void FireProjectile()
